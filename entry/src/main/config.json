@@ -62,7 +62,8 @@
           "pages/AbaloneLoad",
           "pages/iris",
           "pages/Iris_classification",
-          "pages/mnist"
+          "pages/mnist",
+          "pages/HousePrice"
         ],
         "name": ".MainAbility",
         "window": {

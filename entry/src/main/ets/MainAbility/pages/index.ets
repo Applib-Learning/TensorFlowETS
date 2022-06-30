@@ -186,10 +186,14 @@ struct Index {
           .onClick(() => {
             router.push({ uri: 'pages/mnist' })
           }).margin('25px')
+        Button("House Price")
+          .onClick(() => {
+            router.push({ uri: 'pages/HousePrice' })
+          }).margin('25px')
         Button("Abalone Load") // Load pretrained abalone model
           .onClick(() => {
             router.push({ uri: 'pages/AbaloneLoad' })
-          })
+          }).margin('25px')
       }
       .width('100%')
     }

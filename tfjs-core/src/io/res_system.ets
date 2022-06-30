@@ -46,7 +46,7 @@ never {
 }
 
 export class NodeFileSystem implements IOHandler {
-  static readonly URL_SCHEME = '/common';
+  static readonly URL_SCHEME = '/models';
 
   protected readonly path: string|string[];
 
@@ -189,8 +189,8 @@ export class NodeFileSystem implements IOHandler {
     console.info("res loadJSONModel " + this.path);
 //    const path = "./common" + this.path + "_model.json"as string;
 
-    let myData = await import("./common" + this.path + "_model.json");
-    // let myData = await import('@ohos/tfjs-models/models/abalone/model.json');
+//    let myData = await import("./common" + this.path + "_model.json");
+     let myData = await import('@ohos/tfjs-models/models/abalone/model.json');
     console.info("myData " + myData);
     let data = JSON.parse((JSON.stringify(myData)));
     console.info(data.format);
@@ -215,7 +215,7 @@ export class NodeFileSystem implements IOHandler {
     console.info("res loadJSONModel " + this.path);
 //    const path = "./common" + this.path + "_model.json"as string;
     return new Promise((resolve, reject) => {
-      import("./common" + this.path + "_model.json").then(({default: myData}) => {
+      import('@ohos/tfjs-models/models/abalone/model.json').then(({default: myData}) => {
         console.info("myData " + myData);
         Promise.resolve(JSON.parse((JSON.stringify(myData))))
           .then(data => {
@@ -286,12 +286,15 @@ export class NodeFileSystem implements IOHandler {
     });*/
 
     // let jsonOfWeights = await import('./../common/weights.json');
-    // let jsonOfWeights = await import('@ohos/tfjs-models/models/abalone/weights.json');
-    let jsonOfWeights = await import("./common" + this.path + "_weights.json");
+    let weightsPath = String('@ohos/tfjs-models/models'+String(this.path)+'/weights.json');
+    console.log(weightsPath)
+//    let jsonOfWeights = await import(weightsPath);
+     let jsonOfWeights = await import('@ohos/tfjs-models/models/abalone/weights.json');
+//    let jsonOfWeights = await import("./common" + this.path + "_weights.json");
     let jsonObj = JSON.parse(JSON.stringify(jsonOfWeights))
     let jsonArray = []
     for (var item in jsonObj) {
-      jsonArray.push(item);
+      jsonArray.push(jsonObj[item]);
     }
     console.info("loadWeights jsonArray count " + jsonArray.length);
     // const arrBuffer = new Uint8Array(JSON.parse(JSON.stringify(jsonOfWeights))).buffer

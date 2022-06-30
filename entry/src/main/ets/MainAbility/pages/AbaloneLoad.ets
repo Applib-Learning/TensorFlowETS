@@ -18,8 +18,9 @@ struct AbaloneLoad {
           Button("Load")
             .onClick(async() => {
               console.log("Started loading the model");
-              const model = await tf.loadLayersModel('/common/abalone');
+              const model = await tf.loadLayersModel('/models/abalone');
               // common directory is present in tfjs-core/src/io - place the weights and model .json files there in the format of "yourmodelname_weights.json" and "yourmodelname_model.json"
+
               const result = model.predict(
               tf.tensor2d([[0, 0.625, 0.495, 0.165, 1.262, 0.507, 0.318, 0.39]])) as tf.Tensor;
               console.log(
