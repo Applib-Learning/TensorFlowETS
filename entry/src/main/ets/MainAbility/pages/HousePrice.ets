@@ -1,6 +1,6 @@
 import * as tf from "@ohos/tfjs"
 import * as house_data from "./../../../resources/base/media/house.json";
-
+import router from '@system.router'
 @Entry
 @Component
 struct Xor {
@@ -106,6 +106,11 @@ struct Xor {
           .fontSize(25)
           .fontWeight(FontWeight.Bold)
           .margin('25px')
+        Button("Back")
+          .onClick(()=>{
+            router.back();
+          })
+          .margin(40)
       }
       .width('100%')
     }
