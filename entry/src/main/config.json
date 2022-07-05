@@ -64,7 +64,8 @@
           "pages/Iris_classification",
           "pages/mnist",
           "pages/HousePrice",
-          "pages/IrisTracker"
+          "pages/IrisTracker",
+          "pages/SpamDetector"
         ],
         "name": ".MainAbility",
         "window": {

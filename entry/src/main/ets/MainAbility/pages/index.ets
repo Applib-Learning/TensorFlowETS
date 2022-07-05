@@ -194,9 +194,13 @@ struct Index {
           .onClick(() => {
             router.push({ uri: 'pages/AbaloneLoad' })
           }).margin('25px')
-        Button("Iris Load") // Load pretrained abalone model
+        Button("Iris Tracker Load") // Load pretrained iris tracker graph model
           .onClick(() => {
             router.push({ uri: 'pages/IrisTracker' })
+          }).margin('25px')
+        Button("Spam Detector") // Load pretrained Spam detector model
+          .onClick(() => {
+            router.push({ uri: 'pages/SpamDetector' })
           }).margin('25px')
       }
       .width('100%')

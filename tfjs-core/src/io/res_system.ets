@@ -190,7 +190,7 @@ export class NodeFileSystem implements IOHandler {
 //    const path = "./common" + this.path + "_model.json"as string;
 
 //    let myData = await import("./common" + this.path + "_model.json");
-     let myData = await import('@ohos/tfjs-models/models/iris/model.json');
+     let myData = await import('@ohos/tfjs-models/models/spam/model.json');
     console.info("myData " + myData);
     let data = JSON.parse((JSON.stringify(myData)));
     console.info(data.format);
@@ -215,7 +215,7 @@ export class NodeFileSystem implements IOHandler {
     console.info("res loadJSONModel " + this.path);
 //    const path = "./common" + this.path + "_model.json"as string;
     return new Promise((resolve, reject) => {
-      import('@ohos/tfjs-models/models/iris/model.json').then(({default: myData}) => {
+      import('@ohos/tfjs-models/models/spam/model.json').then(({default: myData}) => {
         console.info("myData " + myData);
         Promise.resolve(JSON.parse((JSON.stringify(myData))))
           .then(data => {
@@ -289,7 +289,7 @@ export class NodeFileSystem implements IOHandler {
     let weightsPath = String('@ohos/tfjs-models/models'+String(this.path)+'/weights.json');
     console.log(weightsPath)
 //    let jsonOfWeights = await import(weightsPath);
-     let jsonOfWeights = await import('@ohos/tfjs-models/models/iris/weights.json');
+     let jsonOfWeights = await import('@ohos/tfjs-models/models/spam/weights.json');
 //    let jsonOfWeights = await import("./common" + this.path + "_weights.json");
     let jsonObj = JSON.parse(JSON.stringify(jsonOfWeights))
     let jsonArray = []
