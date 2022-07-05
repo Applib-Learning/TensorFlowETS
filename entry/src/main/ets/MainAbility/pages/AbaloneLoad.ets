@@ -22,12 +22,13 @@ struct AbaloneLoad {
               // common directory is present in tfjs-core/src/io - place the weights and model .json files there in the format of "yourmodelname_weights.json" and "yourmodelname_model.json"
 
               const result = model.predict(
-              tf.tensor2d([[0, 0.625, 0.495, 0.165, 1.262, 0.507, 0.318, 0.39]])) as tf.Tensor;
+
+              tf.tensor2d([[1, 0.455, 0.365, 0.095, 0.514, 0.2245, 0.101, 0.15],[1, 0.35,	0.265, 0.09, 0.2255, 0.0995, 0.0485, 0.07],[0, 0.53, 0.42, 0.135, 0.677, 0.2565, 0.1415, 0.21]])) as tf.Tensor;
               console.log(
                 'The actual test abalone age is 10, prediction from the model is ' +
                 result.dataSync())
-              this.input = 'The actual test abalone age is 10'
-              this.output = 'prediction from the model is '+ result.dataSync();
+              this.input = 'The actual test abalone ages are 15,7,9'
+              this.output = 'predictions are: '+ result.dataSync();
               console.log("Loaded the model");
             }).margin('25px')
           Button("Test") //Press to predict after training
