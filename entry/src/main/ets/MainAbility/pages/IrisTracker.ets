@@ -35,7 +35,7 @@ struct MobileNet {
               const pred = await model.predict(tf.tensor(facearr)) as tf.Tensor;
               const inputs = await model.inputs[0].shape;
               const outputs = await model.outputs[0].shape;
-              console.log('Input and Output shapes are: '+ inputs+ "and "+outputs);
+              console.log('Input and Output shapes are: '+ inputs+ " and "+outputs);
               console.log('Pred: ' + pred.dataSync())
               console.log("Loaded the model");
             }).margin('25px')
