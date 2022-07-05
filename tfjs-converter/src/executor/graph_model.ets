@@ -40,7 +40,7 @@ type UrlIOHandler<T extends Url> = T extends string ? io.IOHandler : T;
  * @doc {heading: 'Models', subheading: 'Classes'}
  */
 export class GraphModel<ModelURL extends Url = string|io.IOHandler>
-  implements InferenceModel {
+implements InferenceModel {
   private executor: GraphExecutor;
   private version = 'n/a';
   private handler: UrlIOHandler<ModelURL>;
@@ -92,8 +92,8 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
    * before the load is completed.
    */
   constructor(
-      private modelUrl: ModelURL,
-      private loadOptions: io.LoadOptions = {}) {
+    private modelUrl: ModelURL,
+    private loadOptions: io.LoadOptions = {}) {
     if (loadOptions == null) {
       this.loadOptions = {};
     }
@@ -117,8 +117,8 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
         handlers.push(io.browserHTTPRequest(path as string, this.loadOptions));
       } else if (handlers.length > 1) {
         throw new Error(
-            `Found more than one (${handlers.length}) load handlers for ` +
-            `URL '${[path]}'`);
+          `Found more than one (${handlers.length}) load handlers for ` +
+          `URL '${[path]}'`);
       }
       this.handler = handlers[0] as IOHandler;
     }
@@ -134,8 +134,8 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
     this.findIOHandler();
     if (this.handler.load == null) {
       throw new Error(
-          'Cannot proceed with model loading because the IOHandler provided ' +
-          'does not have the `load` method implemented.');
+        'Cannot proceed with model loading because the IOHandler provided ' +
+        'does not have the `load` method implemented.');
     }
 
     type Result = IOHandler extends io.IOHandlerSync ? boolean
@@ -161,10 +161,10 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
 
     let signature;
     if (this.artifacts.userDefinedMetadata != null &&
-        this.artifacts.userDefinedMetadata.signature != null) {
+    this.artifacts.userDefinedMetadata.signature != null) {
       signature =  // tslint:disable-next-line:no-any
-          (this.artifacts.userDefinedMetadata as any).signature as
-          tensorflow.ISignatureDef;
+      (this.artifacts.userDefinedMetadata as any).signature as
+      tensorflow.ISignatureDef;
     } else {
       signature = this.artifacts.signature;
     }
@@ -172,18 +172,18 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
 
     this.version = `${graph.versions.producer}.${graph.versions.minConsumer}`;
     const weightMap =
-        io.decodeWeights(this.artifacts.weightData, this.artifacts.weightSpecs);
+    io.decodeWeights(this.artifacts.weightData, this.artifacts.weightSpecs);
     this.executor = new GraphExecutor(
-        OperationMapper.Instance.transformGraph(graph, this.signature));
+    OperationMapper.Instance.transformGraph(graph, this.signature));
     this.executor.weightMap = this.convertTensorMapToTensorsMap(weightMap);
     // Attach a model-level resourceManager to each executor to share resources,
     // such as `HashTable`.
     this.executor.resourceManager = this.resourceManager;
 
     if (artifacts.modelInitializer != null &&
-        (artifacts.modelInitializer as tensorflow.IGraphDef).node != null) {
+    (artifacts.modelInitializer as tensorflow.IGraphDef).node != null) {
       const initializer =
-          OperationMapper.Instance.transformGraph(artifacts.modelInitializer);
+      OperationMapper.Instance.transformGraph(artifacts.modelInitializer);
       this.initializer = new GraphExecutor(initializer);
       this.initializer.weightMap = this.executor.weightMap;
       // Attach a model-level resourceManager to the initializer, the
@@ -241,23 +241,23 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
    * @doc {heading: 'Models', subheading: 'Classes', ignoreCI: true}
    */
   async save(handlerOrURL: io.IOHandler|string, config?: io.SaveConfig):
-      Promise<io.SaveResult> {
+  Promise<io.SaveResult> {
     if (typeof handlerOrURL === 'string') {
       const handlers = io.getSaveHandlers(handlerOrURL);
       if (handlers.length === 0) {
         throw new Error(
-            `Cannot find any save handlers for URL '${handlerOrURL}'`);
+          `Cannot find any save handlers for URL '${handlerOrURL}'`);
       } else if (handlers.length > 1) {
         throw new Error(
-            `Found more than one (${handlers.length}) save handlers for ` +
-            `URL '${handlerOrURL}'`);
+          `Found more than one (${handlers.length}) save handlers for ` +
+          `URL '${handlerOrURL}'`);
       }
       handlerOrURL = handlers[0];
     }
     if (handlerOrURL.save == null) {
       throw new Error(
-          'GraphModel.save() cannot proceed because the IOHandler ' +
-          'provided does not have the `save` attribute defined.');
+        'GraphModel.save() cannot proceed because the IOHandler ' +
+        'provided does not have the `save` attribute defined.');
     }
 
     return handlerOrURL.save(this.artifacts);
@@ -302,12 +302,12 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
    * @doc {heading: 'Models', subheading: 'Classes'}
    */
   predict(inputs: Tensor|Tensor[]|NamedTensorMap, config?: ModelPredictConfig):
-      Tensor|Tensor[]|NamedTensorMap {
+  Tensor|Tensor[]|NamedTensorMap {
     return this.execute(inputs, this.outputNodes);
   }
 
   private normalizeInputs(inputs: Tensor|Tensor[]|
-                          NamedTensorMap): NamedTensorMap {
+  NamedTensorMap): NamedTensorMap {
     if (!(inputs instanceof Tensor) && !Array.isArray(inputs)) {
       // The input is already a NamedTensorMap.
       return inputs;
@@ -315,9 +315,9 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
     inputs = Array.isArray(inputs) ? inputs : [inputs];
     if (inputs.length !== this.inputNodes.length) {
       throw new Error(
-          'Input tensor count mismatch,' +
-          `the graph model has ${this.inputNodes.length} placeholders, ` +
-          `while there are ${inputs.length} input tensors.`);
+        'Input tensor count mismatch,' +
+        `the graph model has ${this.inputNodes.length} placeholders, ` +
+        `while there are ${inputs.length} input tensors.`);
     }
     return this.inputNodes.reduce((map, inputName, i) => {
       map[inputName] = (inputs as Tensor[])[i];
@@ -347,7 +347,7 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
    * @doc {heading: 'Models', subheading: 'Classes'}
    */
   execute(inputs: Tensor|Tensor[]|NamedTensorMap, outputs?: string|string[]):
-      Tensor|Tensor[] {
+  Tensor|Tensor[] {
     inputs = this.normalizeInputs(inputs);
     outputs = this.normalizeOutputs(outputs);
     const result = this.executor.execute(inputs, outputs);
@@ -370,8 +370,8 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
    * @doc {heading: 'Models', subheading: 'Classes'}
    */
   async executeAsync(
-      inputs: Tensor|Tensor[]|NamedTensorMap,
-      outputs?: string|string[]): Promise<Tensor|Tensor[]> {
+    inputs: Tensor|Tensor[]|NamedTensorMap,
+    outputs?: string|string[]): Promise<Tensor|Tensor[]> {
     inputs = this.normalizeInputs(inputs);
     outputs = this.normalizeOutputs(outputs);
     const result = await this.executor.executeAsync(inputs, outputs);
@@ -452,12 +452,12 @@ export class GraphModel<ModelURL extends Url = string|io.IOHandler>
  * @doc {heading: 'Models', subheading: 'Loading'}
  */
 export async function loadGraphModel(
-    modelUrl: string|io.IOHandler,
-    options: io.LoadOptions = {}): Promise<GraphModel> {
+  modelUrl: string|io.IOHandler,
+  options: io.LoadOptions = {}): Promise<GraphModel> {
   if (modelUrl == null) {
     throw new Error(
-        'modelUrl in loadGraphModel() cannot be null. Please provide a url ' +
-        'or an IOHandler that loads the model');
+      'modelUrl in loadGraphModel() cannot be null. Please provide a url ' +
+      'or an IOHandler that loads the model');
   }
   if (options == null) {
     options = {};
@@ -480,11 +480,11 @@ export async function loadGraphModel(
  */
 
 export function loadGraphModelSync(
-  modelSource: io.IOHandlerSync): GraphModel<io.IOHandlerSync> {
+    modelSource: io.IOHandlerSync): GraphModel<io.IOHandlerSync> {
   if (modelSource == null) {
     throw new Error(
-        'modelUrl in loadGraphModelSync() cannot be null. Please provide a ' +
-        'url or an IOHandler that loads the model');
+      'modelUrl in loadGraphModelSync() cannot be null. Please provide a ' +
+      'url or an IOHandler that loads the model');
   }
   if (!modelSource.load) {
     throw new Error(`modelUrl IO Handler ${modelSource} has no load function`);

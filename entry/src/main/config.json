@@ -63,7 +63,8 @@
           "pages/iris",
           "pages/Iris_classification",
           "pages/mnist",
-          "pages/HousePrice"
+          "pages/HousePrice",
+          "pages/IrisTracker"
         ],
         "name": ".MainAbility",
         "window": {

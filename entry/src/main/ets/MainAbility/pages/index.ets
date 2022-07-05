@@ -194,6 +194,10 @@ struct Index {
           .onClick(() => {
             router.push({ uri: 'pages/AbaloneLoad' })
           }).margin('25px')
+        Button("Iris Load") // Load pretrained abalone model
+          .onClick(() => {
+            router.push({ uri: 'pages/IrisTracker' })
+          }).margin('25px')
       }
       .width('100%')
     }
