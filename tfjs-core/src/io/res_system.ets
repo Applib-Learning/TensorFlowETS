@@ -187,10 +187,20 @@ export class NodeFileSystem implements IOHandler {
 
   protected async loadJSONModel(): Promise<ModelArtifacts> {
     console.info("res loadJSONModel " + this.path);
-//    const path = "./common" + this.path + "_model.json"as string;
+    const path = this.path as string;
 
 //    let myData = await import("./common" + this.path + "_model.json");
-     let myData = await import('@ohos/tfjs-models/models/abalone/model.json');
+    let myData;
+    if(path==('/spam')){
+      myData = await import('@ohos/tfjs-models/models/spam/model.json');
+    }
+    else if (path==('/iris')) {
+      myData = await import('@ohos/tfjs-models/models/iris/model.json');
+    }
+    else if (path==('/abalone')){
+      myData = await import('@ohos/tfjs-models/models/abalone/model.json');
+    }
+
     console.info("myData " + myData);
     let data = JSON.parse((JSON.stringify(myData)));
     console.info(data.format);
@@ -215,35 +225,100 @@ export class NodeFileSystem implements IOHandler {
     console.info("res loadJSONModel " + this.path);
 //    const path = "./common" + this.path + "_model.json"as string;
     return new Promise((resolve, reject) => {
-      import('@ohos/tfjs-models/models/abalone/model.json').then(({default: myData}) => {
-        console.info("myData " + myData);
-        Promise.resolve(JSON.parse((JSON.stringify(myData))))
-          .then(data => {
-            /*console.info(data);
-            console.info(data.modelTopology);*/
-            console.info(data.format);
+      const path = this.path as string;
+      if(path==('/spam')){
+        import('@ohos/tfjs-models/models/spam/model.json').then(({default: myData}) => {
+          console.info("myData " + myData);
+          Promise.resolve(JSON.parse((JSON.stringify(myData))))
+            .then(data => {
+              /*console.info(data);
+              console.info(data.modelTopology);*/
+              console.info(data.format);
 
-            const modelTopology = data.modelTopology;
-            if (modelTopology == null) {
-              console.info("myData modelTopology null ");
-              reject(new Error(`modelTopology field is missing from file `));
-              return;
-            }
-            const weightsManifest = data.weightsManifest;
-            if (weightsManifest == null) {
-              console.info("myData weightsManifest null ");
-              reject(new Error(`weightManifest field is missing from file `));
-              return;
-            }
-            /*const modelArtifactsPromise = getModelArtifactsForJSON(
-              data, (weightsManifest) => this.loadWeights(weightsManifest));
-            resolve(modelArtifactsPromise);*/
+              const modelTopology = data.modelTopology;
+              if (modelTopology == null) {
+                console.info("myData modelTopology null ");
+                reject(new Error(`modelTopology field is missing from file `));
+                return;
+              }
+              const weightsManifest = data.weightsManifest;
+              if (weightsManifest == null) {
+                console.info("myData weightsManifest null ");
+                reject(new Error(`weightManifest field is missing from file `));
+                return;
+              }
+              /*const modelArtifactsPromise = getModelArtifactsForJSON(
+                data, (weightsManifest) => this.loadWeights(weightsManifest));
+              resolve(modelArtifactsPromise);*/
 
-            return getModelArtifactsForJSON(
-              data,
-              (weightsManifest) => this.loadWeights(weightsManifest, ""));
-          })
-      });
+              return getModelArtifactsForJSON(
+                data,
+                (weightsManifest) => this.loadWeights(weightsManifest, ""));
+            })
+        });
+      }
+      else if (path==('/iris')) {
+        import('@ohos/tfjs-models/models/iris/model.json').then(({default: myData}) => {
+          console.info("myData " + myData);
+          Promise.resolve(JSON.parse((JSON.stringify(myData))))
+            .then(data => {
+              /*console.info(data);
+              console.info(data.modelTopology);*/
+              console.info(data.format);
+
+              const modelTopology = data.modelTopology;
+              if (modelTopology == null) {
+                console.info("myData modelTopology null ");
+                reject(new Error(`modelTopology field is missing from file `));
+                return;
+              }
+              const weightsManifest = data.weightsManifest;
+              if (weightsManifest == null) {
+                console.info("myData weightsManifest null ");
+                reject(new Error(`weightManifest field is missing from file `));
+                return;
+              }
+              /*const modelArtifactsPromise = getModelArtifactsForJSON(
+                data, (weightsManifest) => this.loadWeights(weightsManifest));
+              resolve(modelArtifactsPromise);*/
+
+              return getModelArtifactsForJSON(
+                data,
+                (weightsManifest) => this.loadWeights(weightsManifest, ""));
+            })
+        });
+      }
+      else if (path==('/abalone')){
+        import('@ohos/tfjs-models/models/abalone/model.json').then(({default: myData}) => {
+          console.info("myData " + myData);
+          Promise.resolve(JSON.parse((JSON.stringify(myData))))
+            .then(data => {
+              /*console.info(data);
+              console.info(data.modelTopology);*/
+              console.info(data.format);
+
+              const modelTopology = data.modelTopology;
+              if (modelTopology == null) {
+                console.info("myData modelTopology null ");
+                reject(new Error(`modelTopology field is missing from file `));
+                return;
+              }
+              const weightsManifest = data.weightsManifest;
+              if (weightsManifest == null) {
+                console.info("myData weightsManifest null ");
+                reject(new Error(`weightManifest field is missing from file `));
+                return;
+              }
+              /*const modelArtifactsPromise = getModelArtifactsForJSON(
+                data, (weightsManifest) => this.loadWeights(weightsManifest));
+              resolve(modelArtifactsPromise);*/
+
+              return getModelArtifactsForJSON(
+                data,
+                (weightsManifest) => this.loadWeights(weightsManifest, ""));
+            })
+        });
+      }
     });
   }
 
@@ -287,10 +362,19 @@ export class NodeFileSystem implements IOHandler {
 
     // let jsonOfWeights = await import('./../common/weights.json');
     let weightsPath = String('@ohos/tfjs-models/models'+String(this.path)+'/weights.json');
-    console.log(weightsPath)
+
+    const path = this.path as string;
+    let jsonOfWeights;
 //    let jsonOfWeights = await import(weightsPath);
-     let jsonOfWeights = await import('@ohos/tfjs-models/models/abalone/weights.json');
-//    let jsonOfWeights = await import("./common" + this.path + "_weights.json");
+    if(path==('/spam')){
+      jsonOfWeights = await import('@ohos/tfjs-models/models/spam/weights.json');
+    }
+    else if (path==('/iris')) {
+      jsonOfWeights = await import('@ohos/tfjs-models/models/iris/weights.json');
+    }
+    else if (path==('/abalone')){
+      jsonOfWeights = await import('@ohos/tfjs-models/models/abalone/weights.json');
+    }
     let jsonObj = JSON.parse(JSON.stringify(jsonOfWeights))
     let jsonArray = []
     for (var item in jsonObj) {
