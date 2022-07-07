@@ -195,10 +195,13 @@ export class NodeFileSystem implements IOHandler {
       myData = await import('@ohos/tfjs-models/models/spam/model.json');
     }
     else if (path==('/iris')) {
-      myData = await import('@ohos/tfjs-models/models/iris/model.json');
+      //myData = await import('@ohos/tfjs-models/models/iris/model.json');
     }
     else if (path==('/abalone')){
       myData = await import('@ohos/tfjs-models/models/abalone/model.json');
+    }
+    else if(path==('/mnist')){
+      myData = await import('@ohos/tfjs-models/models/mnist/model.json');
     }
 
     console.info("myData " + myData);
@@ -319,6 +322,37 @@ export class NodeFileSystem implements IOHandler {
             })
         });
       }
+      else if(path ==('/mnist')){
+        import('@ohos/tfjs-models/models/mnist/model.json').then(({default: myData}) => {
+          console.info("myData " + myData);
+          Promise.resolve(JSON.parse((JSON.stringify(myData))))
+            .then(data => {
+              /*console.info(data);
+              console.info(data.modelTopology);*/
+              console.info(data.format);
+
+              const modelTopology = data.modelTopology;
+              if (modelTopology == null) {
+                console.info("myData modelTopology null ");
+                reject(new Error(`modelTopology field is missing from file `));
+                return;
+              }
+              const weightsManifest = data.weightsManifest;
+              if (weightsManifest == null) {
+                console.info("myData weightsManifest null ");
+                reject(new Error(`weightManifest field is missing from file `));
+                return;
+              }
+              /*const modelArtifactsPromise = getModelArtifactsForJSON(
+                data, (weightsManifest) => this.loadWeights(weightsManifest));
+              resolve(modelArtifactsPromise);*/
+
+              return getModelArtifactsForJSON(
+                data,
+                (weightsManifest) => this.loadWeights(weightsManifest, ""));
+            })
+        });
+      }
     });
   }
 
@@ -370,11 +404,15 @@ export class NodeFileSystem implements IOHandler {
       jsonOfWeights = await import('@ohos/tfjs-models/models/spam/weights.json');
     }
     else if (path==('/iris')) {
-      jsonOfWeights = await import('@ohos/tfjs-models/models/iris/weights.json');
+      //jsonOfWeights = await import('@ohos/tfjs-models/models/iris/weights.json');
     }
     else if (path==('/abalone')){
       jsonOfWeights = await import('@ohos/tfjs-models/models/abalone/weights.json');
     }
+    else if(path==('/mnist')){
+      jsonOfWeights = await import('@ohos/tfjs-models/models/mnist/weights.json');
+    }
+
     let jsonObj = JSON.parse(JSON.stringify(jsonOfWeights))
     let jsonArray = []
     for (var item in jsonObj) {
