@@ -65,7 +65,8 @@
           "pages/mnist",
           "pages/HousePrice",
           "pages/IrisTracker",
-          "pages/SpamDetector"
+          "pages/SpamDetector",
+          "pages/SelfieSegmentation"
         ],
         "name": ".MainAbility",
         "window": {
