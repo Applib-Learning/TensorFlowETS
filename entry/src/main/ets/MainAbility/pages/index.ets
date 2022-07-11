@@ -202,6 +202,11 @@ struct Index {
           .onClick(() => {
             router.push({ uri: 'pages/SpamDetector' })
           }).margin('25px')
+
+        Button("Mnist Model Loaded") // Load pretrained MNIST Model
+          .onClick(() => {
+            router.push({ uri: 'pages/MnistLoad' })
+          }).margin('25px')
         Button("Selfie Segmentation") // Load pretrained Spam detector model
           .onClick(() => {
             router.push({ uri: 'pages/SelfieSegmentation' })

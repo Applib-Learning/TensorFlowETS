@@ -200,6 +200,9 @@ export class NodeFileSystem implements IOHandler {
     else if (path==('/abalone')){
       myData = await import('@ohos/tfjs-models/models/abalone/model.json');
     }
+    else if(path==('/mnist')){
+      myData = await import('@ohos/tfjs-models/models/mnist/model.json');
+    }
     else if (path==('/segmentation')){
       myData = await import('@ohos/tfjs-models/models/segmentation/model.json');
     }
@@ -409,9 +412,13 @@ export class NodeFileSystem implements IOHandler {
     else if (path==('/abalone')){
       jsonOfWeights = await import('@ohos/tfjs-models/models/abalone/weights.json');
     }
+    else if(path==('/mnist')){
+      jsonOfWeights = await import('@ohos/tfjs-models/models/mnist/weights.json');
+    }
     else if (path==('/segmentation')){
       jsonOfWeights = await import('@ohos/tfjs-models/models/segmentation/weights.json');
     }
+
     let jsonObj = JSON.parse(JSON.stringify(jsonOfWeights))
     let jsonArray = []
     for (var item in jsonObj) {
