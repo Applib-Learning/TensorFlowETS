@@ -203,6 +203,9 @@ export class NodeFileSystem implements IOHandler {
     else if(path==('/mnist')){
       myData = await import('@ohos/tfjs-models/models/mnist/model.json');
     }
+    else if (path==('/segmentation')){
+      myData = await import('@ohos/tfjs-models/models/segmentation/model.json');
+    }
 
     console.info("myData " + myData);
     let data = JSON.parse((JSON.stringify(myData)));
@@ -322,8 +325,8 @@ export class NodeFileSystem implements IOHandler {
             })
         });
       }
-      else if(path ==('/mnist')){
-        import('@ohos/tfjs-models/models/mnist/model.json').then(({default: myData}) => {
+      else if (path==('/segmentation')){
+        import('@ohos/tfjs-models/models/segmentation/model.json').then(({default: myData}) => {
           console.info("myData " + myData);
           Promise.resolve(JSON.parse((JSON.stringify(myData))))
             .then(data => {
@@ -411,6 +414,9 @@ export class NodeFileSystem implements IOHandler {
     }
     else if(path==('/mnist')){
       jsonOfWeights = await import('@ohos/tfjs-models/models/mnist/weights.json');
+    }
+    else if (path==('/segmentation')){
+      jsonOfWeights = await import('@ohos/tfjs-models/models/segmentation/weights.json');
     }
 
     let jsonObj = JSON.parse(JSON.stringify(jsonOfWeights))
