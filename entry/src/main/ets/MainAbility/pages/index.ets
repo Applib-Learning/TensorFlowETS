@@ -173,7 +173,39 @@ struct Index {
         Button("Abalone Age") // Predicts the age of Abalone given the physical data
           .onClick(() => {
             router.push({ uri: 'pages/Abalone' })
-          })
+          }).margin('25px')
+        Button("Iris")
+          .onClick(() => {
+            router.push({ uri: 'pages/iris' })
+          }).margin('25px')
+        Button("Iris Classification")
+          .onClick(() => {
+            router.push({ uri: 'pages/Iris_classification' })
+          }).margin('25px')
+        Button("Mnist")
+          .onClick(() => {
+            router.push({ uri: 'pages/mnist' })
+          }).margin('25px')
+        Button("House Price")
+          .onClick(() => {
+            router.push({ uri: 'pages/HousePrice' })
+          }).margin('25px')
+        Button("Abalone Load") // Load pretrained abalone model
+          .onClick(() => {
+            router.push({ uri: 'pages/AbaloneLoad' })
+          }).margin('25px')
+        Button("Iris Tracker Load") // Load pretrained iris tracker graph model
+          .onClick(() => {
+            router.push({ uri: 'pages/IrisTracker' })
+          }).margin('25px')
+        Button("Spam Detector") // Load pretrained Spam detector model
+          .onClick(() => {
+            router.push({ uri: 'pages/SpamDetector' })
+          }).margin('25px')
+        Button("Selfie Segmentation") // Load pretrained Spam detector model
+          .onClick(() => {
+            router.push({ uri: 'pages/SelfieSegmentation' })
+          }).margin('25px')
       }
       .width('100%')
     }

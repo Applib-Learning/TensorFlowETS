@@ -17,7 +17,7 @@
 
 import '@ohos/tfjs-core';
 // tslint:disable-next-line:no-imports-from-dist
-import '@ohos/tfjs-core/dist/public/chained_ops/register_all_chained_ops';
+import '@ohos/tfjs-core/src/public/chained_ops/register_all_chained_ops';
 import '@ohos/tfjs-backend-cpu';
 import '@ohos/tfjs-backend-webgl';
 
