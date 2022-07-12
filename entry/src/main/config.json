@@ -63,7 +63,11 @@
           "pages/iris",
           "pages/Iris_classification",
           "pages/mnist",
-          "pages/HousePrice"
+          "pages/HousePrice",
+          "pages/IrisTracker",
+          "pages/SpamDetector",
+          "pages/SelfieSegmentation",
+          "pages/handpose"
         ],
         "name": ".MainAbility",
         "window": {

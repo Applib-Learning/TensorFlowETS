@@ -13,6 +13,7 @@
     "@ohos/tfjs-core": "file:../tfjs-core",
     "@ohos/tfjs-layers": "file:../tfjs-layers",
     "@ohos/tfjs-data": "file:../tfjs-data",
-    "@ohos/tfjs-converter": "file:../tfjs-converter"
+    "@ohos/tfjs-converter": "file:../tfjs-converter",
+    "@ohos/tfjs-models": "file:../tfjs-models"
   }
 }
