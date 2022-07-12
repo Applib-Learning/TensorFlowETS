@@ -67,6 +67,7 @@
           "pages/IrisTracker",
           "pages/SpamDetector",
           "pages/SelfieSegmentation"
+          "pages/handpose"
         ],
         "name": ".MainAbility",
         "window": {
