@@ -191,7 +191,10 @@ export class NodeFileSystem implements IOHandler {
 
 //    let myData = await import("./common" + this.path + "_model.json");
     let myData;
-    if(path==('/spam')){
+    if(path==('/cifar10')){
+      myData = await import('@ohos/tfjs-models/models/cifar10/model.json');
+    }
+    else if(path==('/spam')){
       myData = await import('@ohos/tfjs-models/models/spam/model.json');
     }
     else if (path==('/iris')) {
@@ -234,7 +237,38 @@ export class NodeFileSystem implements IOHandler {
 //    const path = "./common" + this.path + "_model.json"as string;
     return new Promise((resolve, reject) => {
       const path = this.path as string;
-      if(path==('/spam')){
+      if(path==('/cifar10')){
+        import('@ohos/tfjs-models/models/cifar10/model.json').then(({default: myData}) => {
+          console.info("myData " + myData);
+          Promise.resolve(JSON.parse((JSON.stringify(myData))))
+            .then(data => {
+              /*console.info(data);
+              console.info(data.modelTopology);*/
+              console.info(data.format);
+
+              const modelTopology = data.modelTopology;
+              if (modelTopology == null) {
+                console.info("myData modelTopology null ");
+                reject(new Error(`modelTopology field is missing from file `));
+                return;
+              }
+              const weightsManifest = data.weightsManifest;
+              if (weightsManifest == null) {
+                console.info("myData weightsManifest null ");
+                reject(new Error(`weightManifest field is missing from file `));
+                return;
+              }
+              /*const modelArtifactsPromise = getModelArtifactsForJSON(
+                data, (weightsManifest) => this.loadWeights(weightsManifest));
+              resolve(modelArtifactsPromise);*/
+
+              return getModelArtifactsForJSON(
+                data,
+                (weightsManifest) => this.loadWeights(weightsManifest, ""));
+            })
+        });
+      }
+      else if(path==('/spam')){
         import('@ohos/tfjs-models/models/spam/model.json').then(({default: myData}) => {
           console.info("myData " + myData);
           Promise.resolve(JSON.parse((JSON.stringify(myData))))
@@ -436,7 +470,10 @@ export class NodeFileSystem implements IOHandler {
     const path = this.path as string;
     let jsonOfWeights;
 //    let jsonOfWeights = await import(weightsPath);
-    if(path==('/spam')){
+    if(path==('/cifar10')){
+      jsonOfWeights = await import('@ohos/tfjs-models/models/cifar10/weights.json');
+    }
+    else if(path==('/spam')){
       jsonOfWeights = await import('@ohos/tfjs-models/models/spam/weights.json');
     }
     else if (path==('/iris')) {
