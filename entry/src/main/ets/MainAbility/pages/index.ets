@@ -211,9 +211,13 @@ struct Index {
           .onClick(() => {
             router.push({ uri: 'pages/SelfieSegmentation' })
           }).margin('25px')
-          Button("hand detection") // Load pretrained hand detection model
+        Button("hand detection") // Load pretrained hand detection model
           .onClick(() => {
             router.push({ uri: 'pages/handpose' })
+          }).margin('25px')
+        Button("Fashion Mnist") // Load pretrained Fashion Mnist model
+          .onClick(() => {
+            router.push({ uri: 'pages/FashionMnist' })
           }).margin('25px')
       }
       .width('100%')
