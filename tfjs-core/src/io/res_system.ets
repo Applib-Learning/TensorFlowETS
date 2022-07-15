@@ -209,6 +209,9 @@ export class NodeFileSystem implements IOHandler {
     else if (path==('/handpose')){
       myData = await import('@ohos/tfjs-models/models/handpose/model.json');
     }
+    else if(path==('/fashion')){
+      myData = await import('@ohos/tfjs-models/models/fashion/model.json');
+    }
     console.info("myData " + myData);
     let data = JSON.parse((JSON.stringify(myData)));
     console.info(data.format);
@@ -389,6 +392,37 @@ export class NodeFileSystem implements IOHandler {
             })
         });
       }
+      else if(path ==('/fashion')){
+        import('@ohos/tfjs-models/models/fashion/model.json').then(({default: myData}) => {
+          console.info("myData " + myData);
+          Promise.resolve(JSON.parse((JSON.stringify(myData))))
+            .then(data => {
+              /*console.info(data);
+              console.info(data.modelTopology);*/
+              console.info(data.format);
+
+              const modelTopology = data.modelTopology;
+              if (modelTopology == null) {
+                console.info("myData modelTopology null ");
+                reject(new Error(`modelTopology field is missing from file `));
+                return;
+              }
+              const weightsManifest = data.weightsManifest;
+              if (weightsManifest == null) {
+                console.info("myData weightsManifest null ");
+                reject(new Error(`weightManifest field is missing from file `));
+                return;
+              }
+              /*const modelArtifactsPromise = getModelArtifactsForJSON(
+                data, (weightsManifest) => this.loadWeights(weightsManifest));
+              resolve(modelArtifactsPromise);*/
+
+              return getModelArtifactsForJSON(
+                data,
+                (weightsManifest) => this.loadWeights(weightsManifest, ""));
+            })
+        });
+      }
     });
   }
 
@@ -453,7 +487,10 @@ export class NodeFileSystem implements IOHandler {
     }
     else if (path==('/handpose')){
       jsonOfWeights = await import('@ohos/tfjs-models/models/handpose/weights.json');
-      }
+    }
+    else if(path==('/fashion')){
+      jsonOfWeights = await import('@ohos/tfjs-models/models/fashion/weights.json');
+    }
     let jsonObj = JSON.parse(JSON.stringify(jsonOfWeights))
     let jsonArray = []
     for (var item in jsonObj) {
