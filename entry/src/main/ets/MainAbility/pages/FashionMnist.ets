@@ -46,8 +46,8 @@ struct MobileNet {
         Row() {
           Image($r("app.media.pullover"))
             .objectFit(ImageFit.Cover)
-            .width(300)
-            .height(300)
+            .width(100)
+            .height(100)
             .margin('25px')
             .onClick(async() => {
 
@@ -70,8 +70,8 @@ struct MobileNet {
 
           Image($r("app.media.tshirt"))
             .objectFit(ImageFit.Cover)
-            .width(300)
-            .height(300)
+            .width(100)
+            .height(100)
             .margin('25px')
             .onClick(async() => {
 
